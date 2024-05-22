@@ -2,5 +2,8 @@
 base="light"
 primaryColor="#8744b3"
 
+[client]
+caching = false
+
 [server]
 maxUploadSize = 1
