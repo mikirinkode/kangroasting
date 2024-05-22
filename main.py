@@ -7,6 +7,10 @@ from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain_core.runnables import RunnablePassthrough
 
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 key = st.secrets["OPENAI_API_KEY"]
 model = ChatOpenAI(model="gpt-4o", openai_api_key=key)
 

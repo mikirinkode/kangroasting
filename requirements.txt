@@ -3,3 +3,4 @@ langchain-openai
 langchain-core
 PyPDF2
 langchain-chroma
+pysqlite3-binary
