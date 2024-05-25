@@ -30,26 +30,26 @@ prompt = ChatPromptTemplate.from_messages([("human", message)])
 st.set_page_config(page_title="Kang Roasting", page_icon=":smiling_imp:")
 st.title("Mana CV lo? sini gua roasting :smiling_imp:")
 
-uploaded_file = st.file_uploader("Choose a file", type='pdf')
+uploaded_file = st.file_uploader("Pilih file", type='pdf')
 
 if uploaded_file is not None:
     text = ""
     reader = PdfReader(uploaded_file)
     for page in reader.pages:
       text += page.extract_text()
-    doc = Document(
-        page_content=text
-    )
-    
+    doc = Document(page_content=text)
+
     vectorstore = Chroma.from_documents(
         [doc],
         embedding=OpenAIEmbeddings(openai_api_key=key),
     )
-    
+
     retriever = vectorstore.as_retriever()
     rag_chain = {"context": retriever, "question": RunnablePassthrough()} | prompt | model
 
     with st.spinner("Lagi dimasak :fire: sabar yak"):
         result = rag_chain.invoke("roast my CV").content
         st.write(result)
-    
+
+        # cleanup
+        vectorstore.delete_collection()
